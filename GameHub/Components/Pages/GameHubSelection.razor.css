@@ -1,0 +1,337 @@
+/* ===============================================================
+   GameHubSelection.razor.css - Game Selector / Détail du jeu
+   Style inspiré de l'Epic Games Store (thème sombre, grille 4 col)
+   =============================================================== */
+
+/* ---------- HEADER ---------- */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #15171b;
+    border-bottom: 1px solid #2a2d33;
+    padding: 1rem 2rem;
+}
+
+.title {
+    color: #ffffff;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+header .right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.status-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+.status-dot.connected {
+    background-color: #35d073;
+    box-shadow: 0 0 8px rgba(53, 208, 115, 0.75);
+}
+
+.status-dot.disconnected {
+    background-color: #e0475a;
+    box-shadow: 0 0 8px rgba(224, 71, 90, 0.65);
+}
+
+.switch-btn {
+    background-color: #1e2126;
+    color: #cfd2d8;
+    border: 1px solid #34383f;
+    border-radius: 3px;
+    padding: 0.5rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.switch-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.switch-btn:not(:disabled):hover {
+    background-color: #262a31;
+    border-color: #4a4f59;
+}
+
+.lobby-id {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: #1e2126;
+    border: 1px solid #34383f;
+    border-radius: 3px;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.82rem;
+    color: #f1f1f1;
+}
+
+.lobby-id .lbl {
+    color: #6f7480;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    font-size: 0.7rem;
+}
+
+/* ---------- MAIN LAYOUT ---------- */
+main {
+    display: block;
+    min-height: calc(100vh - 66px);
+    background-color: #0e0f12;
+    background-image: radial-gradient(circle at 80% 0%, rgba(0, 116, 228, 0.06), transparent 45%);
+    padding: 2rem;
+}
+
+#browseScreen {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+#browseScreen h2 {
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #24272d;
+}
+
+.empty-hint {
+    color: #6f7480;
+    font-size: 0.9rem;
+    padding: 2rem 0;
+    text-align: center;
+}
+
+/* ---------- LEFT : grille de jeux (4 colonnes, compacte) ---------- */
+.left {
+    flex: 0 0 42%;
+    max-width: 460px;
+    background-color: #15171b;
+    border: 1px solid #24272d;
+    border-radius: 8px;
+    padding: 1.25rem;
+}
+
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.65rem;
+}
+
+.game-grid > div {
+    display: flex;
+    flex-direction: column;
+    background-color: #1b1d21;
+    border: 1px solid #26292f;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: default;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.game-grid > div:hover {
+    transform: translateY(-2px);
+    border-color: #3a3e46;
+}
+
+/* Halo blanc : jeu actuellement pointé via navigation gauche/droite (@_selected) */
+.game-grid > div.selected {
+    border-color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 14px rgba(255, 255, 255, 0.55);
+}
+
+.icon {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #101114;
+}
+
+.responsive-game-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* "Bandeau" gris regroupant nom + nombre max de joueurs */
+.name {
+    background-color: #24272d;
+    color: #f1f1f1;
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1.2;
+    padding: 0.35rem 0.4rem 0.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.max {
+    background-color: #24272d;
+    color: #9aa0a6;
+    font-size: 0.62rem;
+    font-weight: 500;
+    padding: 0 0.4rem 0.35rem;
+}
+
+.max::before {
+    content: "Max ";
+}
+
+.max::after {
+    content: " joueurs";
+}
+
+/* ---------- RIGHT : détail du jeu sélectionné ---------- */
+#browseScreen .right {
+    flex: 1;
+    background-color: #15171b;
+    border: 1px solid #24272d;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem 1.5rem;
+    min-height: 320px;
+}
+
+#detailWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 240px;
+}
+
+.detail-panel {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.icon-lg {
+    flex: 0 0 220px;
+    aspect-ratio: 3 / 4;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #101114;
+    border: 1px solid #26292f;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.icon-lg .responsive-game-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detail-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.detail-body h3 {
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+}
+
+.detail-body .type {
+    display: inline-block;
+    color: #0074e4;
+    background-color: rgba(0, 116, 228, 0.12);
+    border: 1px solid rgba(0, 116, 228, 0.35);
+    border-radius: 3px;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.9rem;
+}
+
+.detail-body .desc {
+    color: #c3c7cf;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin-bottom: 1.15rem;
+}
+
+.meta-row {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #24272d;
+}
+
+.meta {
+    color: #9aa0a6;
+    font-size: 0.85rem;
+}
+
+.meta b {
+    color: #f1f1f1;
+    font-weight: 700;
+}
+
+.tags {
+    display: inline-block;
+    background-color: #24272d;
+    color: #cfd2d8;
+    border-radius: 999px;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin: 0 0.4rem 0.4rem 0;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+    #browseScreen {
+        flex-direction: column;
+    }
+
+    .left {
+        flex: 1 1 auto;
+        max-width: none;
+        width: 100%;
+    }
+
+    .detail-panel {
+        flex-direction: column;
+    }
+
+    .icon-lg {
+        flex: 0 0 auto;
+        width: 160px;
+    }
+}
+
+@media (max-width: 560px) {
+    header {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .game-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    main {
+        padding: 1.25rem;
+    }
+}   

@@ -1,0 +1,311 @@
+/* ===============================================================
+   Controller (Player Plat2D) .razor.css - Manette tactile plateformer
+   Gauche/Droite + Saut + Action - Style Epic Games Store (thème sombre)
+   =============================================================== */
+
+/* ---------- HEADER (uniquement le bloc "right" ici, pas de titre) ---------- */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background-color: #15171b;
+    border-bottom: 1px solid #2a2d33;
+    padding: 0.75rem 1.25rem;
+}
+
+header .right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+    flex-shrink: 0;
+}
+
+.status-dot.connected {
+    background-color: #35d073;
+    box-shadow: 0 0 8px rgba(53, 208, 115, 0.75);
+}
+
+.status-dot.disconnected {
+    background-color: #e0475a;
+    box-shadow: 0 0 8px rgba(224, 71, 90, 0.65);
+}
+
+.switch-btn {
+    background-color: #1e2126;
+    color: #cfd2d8;
+    border: 1px solid #34383f;
+    border-radius: 3px;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.switch-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.switch-btn:not(:disabled):hover {
+    background-color: #262a31;
+    border-color: #4a4f59;
+}
+
+.lobby-id {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: #1e2126;
+    border: 1px solid #34383f;
+    border-radius: 3px;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.78rem;
+    color: #f1f1f1;
+}
+
+.lobby-id .lbl {
+    color: #6f7480;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    font-size: 0.68rem;
+}
+
+/* ---------- MAIN : zone manette plein écran ---------- */
+main {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    min-height: calc(100dvh - 58px);
+    background-color: #0e0f12;
+    background-image: radial-gradient(circle at 50% 100%, rgba(0, 116, 228, 0.08), transparent 55%);
+    padding: 1.5rem;
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+    padding-left: max(1.5rem, env(safe-area-inset-left));
+    padding-right: max(1.5rem, env(safe-area-inset-right));
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- GAUCHE : Gauche / Droite ---------- */
+main > .left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.pad-cross-row {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.dpad {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    background-color: #15171b;
+    border: 1px solid #24272d;
+    border-radius: 999px;
+    padding: 0.9rem;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+}
+
+.dpad button.left,
+.dpad button.right {
+    width: 92px;
+    height: 92px;
+    min-width: 92px;
+    min-height: 92px;
+    border-radius: 50%;
+    background-color: #1e2126;
+    border: 1px solid #34383f;
+    color: #ffffff;
+    font-size: 2.1rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    touch-action: manipulation;
+    transition: background-color 0.12s ease, border-color 0.12s ease, transform 0.08s ease, box-shadow 0.12s ease;
+}
+
+.dpad button.left:hover,
+.dpad button.right:hover {
+    background-color: #262a31;
+    border-color: #4a4f59;
+}
+
+.dpad button.left:active,
+.dpad button.right:active {
+    transform: scale(0.9);
+    background-color: #0074e4;
+    border-color: #0074e4;
+    box-shadow: 0 0 0 6px rgba(0, 116, 228, 0.25);
+}
+
+.dpad .center {
+    width: 6px;
+    height: 46px;
+    border-radius: 999px;
+    background-color: #24272d;
+}
+
+/* ---------- DROITE : Saut (Up) + Action (Round "+") ---------- */
+main > .right {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.meta-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.1rem;
+}
+
+.meta-buttons button {
+    border: none;
+    cursor: pointer;
+    touch-action: manipulation;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background-color 0.1s ease, border-color 0.1s ease, transform 0.08s ease, box-shadow 0.1s ease;
+}
+
+.meta-buttons button:active {
+    transform: scale(0.9);
+}
+
+/* Bouton "Saut" (up) : pastille rectangulaire, accent bleu = action principale */
+.meta-buttons button.up {
+    width: 110px;
+    height: 78px;
+    border-radius: 20px;
+    background-color: #0074e4;
+    border: 1px solid #0074e4;
+    color: #ffffff;
+    font-size: 1.9rem;
+    box-shadow: 0 6px 16px rgba(0, 116, 228, 0.35);
+}
+
+.meta-buttons button.up:hover {
+    background-color: #2593ff;
+    border-color: #2593ff;
+}
+
+.meta-buttons button.up:active {
+    background-color: #005bb5;
+    border-color: #005bb5;
+    box-shadow: 0 0 0 6px rgba(0, 116, 228, 0.25);
+}
+
+/* Bouton "Action / Use" (round) : bouton rond, accent vert = action secondaire */
+.meta-buttons button.round {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    background-color: #1e2126;
+    border: 2px solid #35d073;
+    color: #35d073;
+    font-size: 2.1rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.meta-buttons button.round:hover {
+    background-color: rgba(53, 208, 115, 0.12);
+}
+
+.meta-buttons button.round:active {
+    background-color: #35d073;
+    color: #0e0f12;
+    box-shadow: 0 0 0 6px rgba(53, 208, 115, 0.25);
+}
+
+/* ---------- Responsive : petits écrans / mode paysage bas ---------- */
+@media (max-width: 480px) {
+    main {
+        padding: 1rem;
+    }
+
+    .dpad {
+        padding: 0.7rem;
+        gap: 1rem;
+    }
+
+    .dpad button.left,
+    .dpad button.right {
+        width: 78px;
+        height: 78px;
+        min-width: 78px;
+        min-height: 78px;
+        font-size: 1.8rem;
+    }
+
+    .meta-buttons button.up {
+        width: 92px;
+        height: 66px;
+        font-size: 1.6rem;
+        border-radius: 16px;
+    }
+
+    .meta-buttons button.round {
+        width: 66px;
+        height: 66px;
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-height: 420px) {
+    header {
+        padding: 0.5rem 1rem;
+    }
+
+    main {
+        padding: 0.75rem 1.25rem;
+    }
+
+    .dpad button.left,
+    .dpad button.right {
+        width: 68px;
+        height: 68px;
+        min-width: 68px;
+        min-height: 68px;
+        font-size: 1.5rem;
+    }
+
+    .meta-buttons {
+        gap: 0.65rem;
+    }
+
+    .meta-buttons button.up {
+        width: 80px;
+        height: 56px;
+        font-size: 1.4rem;
+    }
+
+    .meta-buttons button.round {
+        width: 56px;
+        height: 56px;
+        font-size: 1.5rem;
+    }
+}

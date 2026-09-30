@@ -1,0 +1,363 @@
+/* ===========================================================
+   GameHub.razor.css - Room Selector
+   Style inspiré de l'Epic Games Store (thème sombre, cartes)
+   =========================================================== */
+
+/* ---------- HEADER (2 lignes) ---------- */
+header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+        "title right"
+        "mode  mode";
+    align-items: center;
+    row-gap: 0.85rem;
+    background-color: #15171b;
+    border-bottom: 1px solid #2a2d33;
+    padding: 1rem 2rem;
+}
+
+.title {
+    grid-area: title;
+    color: #ffffff;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+/* Ligne 1 droite : statut WS + input + bouton connect */
+.right {
+    grid-area: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.65rem;
+}
+
+.status-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+.status-dot.connected {
+    background-color: #35d073;
+    box-shadow: 0 0 8px rgba(53, 208, 115, 0.75);
+}
+
+.status-dot.disconnected {
+    background-color: #e0475a;
+    box-shadow: 0 0 8px rgba(224, 71, 90, 0.65);
+}
+
+.right .form-control {
+    background-color: #1e2126;
+    border: 1px solid #34383f;
+    color: #f1f1f1;
+    border-radius: 3px;
+    padding: 0.4rem 0.65rem;
+    font-size: 0.85rem;
+    min-width: 220px;
+}
+
+.right .form-control:focus {
+    outline: none;
+    border-color: #0074e4;
+    box-shadow: 0 0 0 2px rgba(0, 116, 228, 0.35);
+}
+
+.right .form-control::placeholder {
+    color: #6f7480;
+}
+
+.right button,
+#connection {
+    background-color: #0074e4;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+#connection:hover {
+    background-color: #2593ff;
+}
+
+#connection:active {
+    transform: scale(0.97);
+}
+
+/* Ligne 2 : toggle du mode */
+.Mode {
+    grid-area: mode;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.toggle-btn {
+    position: relative;
+    width: 48px;
+    height: 26px;
+    background-color: #2a2d33;
+    border: 1px solid #3a3e46;
+    border-radius: 999px;
+    padding: 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.toggle-btn:hover {
+    background-color: #33373f;
+}
+
+.toggle-btn .circle {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    transition: left 0.2s ease, background-color 0.2s ease;
+}
+
+.toggle-btn.active {
+    background-color: #0074e4;
+}
+
+.toggle-btn.active .circle {
+    left: 24px;
+    background-color: #ffffff;
+}
+
+/* ---------- MAIN ---------- */
+main {
+    display: block;
+    min-height: calc(100vh - 96px);
+    background-color: #0e0f12;
+    background-image: radial-gradient(circle at 20% 0%, rgba(0, 116, 228, 0.06), transparent 45%);
+    padding: 2rem;
+}
+
+.room-empty {
+    color: #9aa0a6;
+    text-align: center;
+    font-size: 1rem;
+    padding: 3rem 0;
+}
+
+#roomSelectScreen .wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#roomSelectScreen h1 {
+    color: #ffffff;
+    font-size: 1.9rem;
+    font-weight: 800;
+    margin-bottom: 0.35rem;
+}
+
+#roomSelectScreen .sub {
+    color: #9aa0a6;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ---------- Toolbar (Reload / Create Lobby) ---------- */
+.room-toolbar {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+}
+
+.room-toolbar button {
+    background-color: #1e2126;
+    color: #f1f1f1;
+    border: 1px solid #34383f;
+    border-radius: 3px;
+    padding: 0.55rem 1.15rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.room-toolbar button:hover {
+    background-color: #262a31;
+    border-color: #4a4f59;
+}
+
+.room-toolbar button:active {
+    transform: scale(0.97);
+}
+
+.room-toolbar button.primary {
+    background-color: #0074e4;
+    border-color: #0074e4;
+}
+
+.room-toolbar button.primary:hover {
+    background-color: #2593ff;
+    border-color: #2593ff;
+}
+
+/* ---------- Split : Lobby (gauche) / Game (droite) ---------- */
+.split-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+    align-items: start;
+}
+
+.split-pane {
+    background-color: #15171b;
+    border: 1px solid #24272d;
+    border-radius: 8px;
+    padding: 1.25rem 1.25rem 1.5rem;
+}
+
+.pane-title {
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #24272d;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pane-title::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+}
+
+.split-pane.lobby .pane-title::before {
+    background-color: #35d073;
+}
+
+.split-pane.game .pane-title::before {
+    background-color: #0074e4;
+}
+
+.pane-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.pane-content > p {
+    grid-column: 1 / -1;
+    color: #6f7480;
+    font-size: 0.9rem;
+    padding: 1.5rem 0;
+    text-align: center;
+}
+
+/* ---------- Card (façon vignette de jeu Epic) ---------- */
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: #1b1d21;
+    border: 1px solid #26292f;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: default;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    border-color: #3a3e46;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+
+/* Icone générée en CSS façon jaquette de jeu */
+.card::before {
+    content: "🎮";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    font-size: 2rem;
+    background: linear-gradient(135deg, #2a2d7c, #7a2a8c);
+}
+
+.pane-content .card:nth-of-type(4n+2)::before {
+    background: linear-gradient(135deg, #7a2a8c, #c23b6f);
+}
+
+.pane-content .card:nth-of-type(4n+3)::before {
+    background: linear-gradient(135deg, #1a5fc4, #16c2b1);
+}
+
+.pane-content .card:nth-of-type(4n+4)::before {
+    background: linear-gradient(135deg, #c2751a, #c23b3b);
+}
+
+.card-text {
+    color: #f1f1f1;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.75rem 0.85rem 0.4rem;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-button {
+    margin: 0.4rem 0.85rem 0.85rem;
+    background-color: #2a2d33;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.card-button:hover {
+    background-color: #0074e4;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+    header {
+        padding: 1rem;
+    }
+
+    .right {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .right .form-control {
+        min-width: 0;
+        flex: 1;
+    }
+
+    .split-container {
+        grid-template-columns: 1fr;
+    }
+
+    main {
+        padding: 1.25rem;
+    }
+}

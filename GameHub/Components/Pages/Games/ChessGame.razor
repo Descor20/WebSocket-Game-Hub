@@ -1,0 +1,156 @@
+@page "/GameHub/Game/{Id}/Chess"
+@rendermode InteractiveServer
+@inherits BaseGame
+
+<title>Game - Chess</title>
+
+<main>
+    <header class="chess-header">
+        <div class="left">
+            @if (!_subscribed)
+            {
+                <span class="status-dot disconnected"></span>
+            }
+            else
+            {
+                <span class="status-dot connected"></span>
+            }
+            <span class="room-label">Salle&nbsp;: <strong>@Id</strong></span>
+        </div>
+        <div class="right">
+            @if (ColorsAssigned)
+            {
+                <span class="color-pill @(MyColor == PieceColor.White ? "pill-white" : "pill-black")">
+                    Vous jouez les @(MyColor == PieceColor.White ? "Blancs" : "Noirs")
+                </span>
+            }
+            <button class="leave-btn" @onclick="LeaveGame">Quitter</button>
+        </div>
+    </header>
+
+    @if (!_subscribed)
+    {
+        <div class="info-screen">
+            <div class="spinner"></div>
+            <p>Connexion à la salle...</p>
+        </div>
+    }
+    else if (!ColorsAssigned)
+    {
+        <div class="info-screen">
+            <div class="spinner"></div>
+            <p>En attente d'un second joueur dans la salle <strong>@Id</strong>...</p>
+        </div>
+    }
+    else
+    {
+        <div class="chess-layout">
+            <div class="board-outer">
+                <div class="board-grid @(IsMyTurn ? "" : "not-your-turn")">
+                    @foreach (var r in DisplayRows)
+                    {
+                        @foreach (var c in DisplayCols)
+                        {
+                            var row = r;
+                            var col = c;
+                            var piece = _board[row, col];
+                            <div class="square @(SquareColorClass(row, col)) @(IsSelected(row, col) ? " selected" : "") @(IsLastMove(row, col) ? " last-move" : "") @(IsKingInCheckSquare(row, col) ? " king-check" : "")"
+                                 @onclick="() => OnSquareClicked(row, col)">
+
+                                @if (IsBottomEdge(row))
+                                {
+                                    <span class="coord file-coord">@((char)('a' + col))</span>
+                                }
+                                @if (IsLeftEdge(col))
+                                {
+                                    <span class="coord rank-coord">@(8 - row)</span>
+                                }
+
+                                @if (!piece.IsEmpty)
+                                {
+                                    <span class="piece @(piece.Color == PieceColor.White ? "white-piece" : "black-piece")">@PieceSymbol(piece)</span>
+                                }
+
+                                @if (IsLegalTarget(row, col))
+                                {
+                                    if (piece.IsEmpty)
+                                    {
+                                        <span class="move-dot"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="capture-ring"></span>
+                                    }
+                                }
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <aside class="side-panel">
+                <div class="status-banner @(_gameOver ? "game-over" : "") @(_inCheck && !_gameOver ? " check" : "")">
+                    @_statusText
+                </div>
+
+                <div class="captured">
+                    <div class="captured-row">
+                        <span class="lbl">Pris par les Blancs</span>
+                        <div class="pieces">
+                            @foreach (var t in _capturedByWhite)
+                            {
+                                <span>@PieceSymbolFor(t, PieceColor.Black)</span>
+                            }
+                        </div>
+                    </div>
+                    <div class="captured-row">
+                        <span class="lbl">Pris par les Noirs</span>
+                        <div class="pieces">
+                            @foreach (var t in _capturedByBlack)
+                            {
+                                <span>@PieceSymbolFor(t, PieceColor.White)</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="history">
+                    <h4>Coups joués</h4>
+                    @if (_moveHistory.Count == 0)
+                    {
+                        <p class="empty-hint">Aucun coup pour l'instant.</p>
+                    }
+                    else
+                    {
+                        <ol>
+                            @foreach (var m in _moveHistory)
+                            {
+                                <li>@m</li>
+                            }
+                        </ol>
+                    }
+                </div>
+
+                @if (_gameOver)
+                {
+                    <button class="restart-btn" @onclick="RequestRestart">Nouvelle partie</button>
+                }
+            </aside>
+        </div>
+    }
+
+    @if (_pendingPromotion is not null)
+    {
+        <div class="promotion-overlay">
+            <div class="promotion-box">
+                <p>Promouvoir le pion en :</p>
+                <div class="promotion-choices">
+                    <button @onclick='() => ChoosePromotion(PieceType.Queen)'>@PieceSymbolFor(PieceType.Queen, MyColor)</button>
+                    <button @onclick='() => ChoosePromotion(PieceType.Rook)'>@PieceSymbolFor(PieceType.Rook, MyColor)</button>
+                    <button @onclick='() => ChoosePromotion(PieceType.Bishop)'>@PieceSymbolFor(PieceType.Bishop, MyColor)</button>
+                    <button @onclick='() => ChoosePromotion(PieceType.Knight)'>@PieceSymbolFor(PieceType.Knight, MyColor)</button>
+                </div>
+            </div>
+        </div>
+    }
+</main>

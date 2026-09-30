@@ -1,0 +1,91 @@
+@page "/GameHub/Lobby/{Id}/Viewer"
+@using ConsoleApp1.Objects.Messages.Response
+@rendermode InteractiveServer
+    
+<title>Game Selector</title>
+
+<header>
+    <div class="title">Room Selector</div>
+    <div class="right">
+        @if (!_subscribed)
+        {
+            <span class="status-dot disconnected" id="statusDot"></span>
+        }
+        else
+        {
+            <span class="status-dot connected" id="statusDot"></span>
+        }
+        <button class="switch-btn" id="switchRoomBtn" disabled>Change Room</button>
+        <div class="lobby-id">
+            <span class="lbl">ID</span>
+            <span id="lobbyId">@Id</span>
+        </div>
+    </div>
+</header>
+
+
+<main>
+    <div id="browseScreen">
+        @if (_availableGames is null)
+        {
+            <div class="left">
+                <h2>Available Games</h2>
+                <div class="game-grid" id="gameGrid">
+                    <div class="empty-hint">Loading...</div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="left">
+                <h2>Available Games</h2>
+                <div class="game-grid" id="gameGrid">
+                    @foreach (var (game, index) in _availableGames.Games.Select((g, i) => (g, i)))
+                    {
+                        <div class="@(index == _selected ? "game-tile selected" : "game-tile")">
+                            <div class="icon">
+                                <img src="@game.Image" alt="Game Cover" class="responsive-game-img" />
+                            </div>
+                            <div class="name">@game.GameName</div>
+                            <div class="max">@game.MaxPlayers</div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        @if (_selectedGame is null)
+        {
+            <div class="right">
+                <h2>Game Detail</h2>
+                <div id="detailWrap">
+                    <div class="empty-hint">No Game Selected.</div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="right">
+                <h2>Game Detail</h2>
+                <div class="detail-panel">
+                    <div class="icon-lg">
+                        <img src="@_selectedGame.Details.Icon" alt="Game Cover" class="responsive-game-img" />
+                    </div>
+                    <div class="detail-body">
+                        <h3>@_selectedGame.Details.Name</h3>
+                        <div class="type">@_selectedGame.Details.GameType</div>
+                        <div class="desc">@_selectedGame.Details.Description</div>
+                        <div class="meta-row">
+                            <div class="meta">Min players = <b>@_selectedGame.Details.MinPlayers</b></div>
+                            <div class="meta">Max players = <b>@_selectedGame.Details.MaxPlayers</b></div>
+                        </div>
+                        @foreach (string tag in _selectedGame.Details.Tags)
+                        {
+                            <div class="tags">@tag</div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</main>

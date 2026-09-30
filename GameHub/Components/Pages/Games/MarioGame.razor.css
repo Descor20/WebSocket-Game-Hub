@@ -1,0 +1,152 @@
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #202020;
+}
+
+.game-viewport {
+    position: relative;
+    margin: 24px auto;
+    background: linear-gradient(#5c94fc 0%, #7ec0ee 100%);
+    border: 4px solid #000;
+    overflow: hidden;
+    image-rendering: pixelated;
+}
+
+.game-world {
+    position: relative;
+    height: 100%;
+    /* Deplacee via translateX depuis le C# pour suivre Mario (defilement horizontal) */
+    will-change: transform;
+}
+
+.ground {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 32px);
+    grid-auto-rows: 32px;
+}
+
+.platform {
+    position: absolute;
+    display: flex;
+}
+
+.brick {
+    width: 32px;
+    height: 32px;
+    box-sizing: border-box;
+    background-color: #c8722c;
+    border: 2px solid #8a4b16;
+    background-size: cover;
+    /* Plus tard : background-image: url('/images/tiles/brick.png'); */
+}
+
+.ground-brick {
+    background-color: #8a5a2b;
+    border-color: #5c3a19;
+}
+
+.flagpole {
+    position: absolute;
+    width: 6px;
+    background: #d4d4d4;
+    border: 1px solid #888;
+    z-index: 3;
+}
+
+.flag {
+    position: absolute;
+    top: 0;
+    left: 6px;
+    width: 28px;
+    height: 20px;
+    background: #2ecc71;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    transition: top 0.8s ease;
+    /* Plus tard : background-image: url('/images/sprites/flag.png'); */
+}
+
+.flag.flag-down {
+    top: calc(100% - 20px);
+}
+
+.mario {
+    position: absolute;
+    background-color: #e52521;
+    border: 2px solid #7a0000;
+    border-radius: 4px;
+    z-index: 5;
+    /* Plus tard : background-image: url('/images/sprites/mario.png'); background-color: transparent; border: none; */
+}
+
+.mario.facing-left {
+    transform: scaleX(-1);
+}
+
+.mario.jumping {
+    filter: brightness(1.15);
+}
+
+.mario.using .mario-hat {
+    animation: punch 0.25s ease-in-out;
+}
+
+.mario-hat {
+    position: absolute;
+    top: -6px;
+    left: 2px;
+    width: 20px;
+    height: 8px;
+    background: #e52521;
+    border-radius: 4px 4px 0 0;
+}
+
+.mario-face {
+    position: absolute;
+    top: 6px;
+    left: 4px;
+    width: 16px;
+    height: 10px;
+    background: #ffd0a0;
+    border-radius: 2px;
+}
+
+@keyframes punch {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(6px); }
+    100% { transform: translateX(0); }
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.victory-overlay {
+    background: rgba(0, 0, 0, 0.65);
+    font-size: 1.4rem;
+}
+
+.victory-overlay button {
+    margin-top: 12px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background: #2ecc71;
+    color: #063;
+    font-weight: bold;
+}

@@ -1,0 +1,28 @@
+@page "/GameHub/Room/{Id}/Player/Plat2D"
+@using ConsoleApp1.Objects.Messages.Response
+@rendermode InteractiveServer
+@inherits BaseController
+    
+<title>Player Controller</title>
+
+<header>
+    <div class="right">
+        @if (!_subscribed)
+        {
+            <span class="status-dot disconnected" id="statusDot"></span>
+        }
+        else
+        {
+            <span class="status-dot connected" id="statusDot"></span>
+        }
+        <button class="switch-btn" id="switchRoomBtn" disabled>Change Room</button>
+        <div class="lobby-id">
+            <span class="lbl">ID</span>
+            <span id="lobbyId">@Id</span>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!--TODO: Implement-->
+</main>

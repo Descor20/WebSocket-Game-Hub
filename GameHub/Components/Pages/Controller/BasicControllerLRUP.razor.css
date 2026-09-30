@@ -1,0 +1,301 @@
+/* ===============================================================
+   Controller (Player LRUP) .razor.css - Manette tactile 4 directions
+   Style Epic Games Store (thème sombre) - optimisé mobile/tactile
+   =============================================================== */
+
+/* ---------- HEADER (uniquement le bloc "right" ici, pas de titre) ---------- */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background-color: #15171b;
+    border-bottom: 1px solid #2a2d33;
+    padding: 0.75rem 1.25rem;
+}
+
+header .right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+    flex-shrink: 0;
+}
+
+.status-dot.connected {
+    background-color: #35d073;
+    box-shadow: 0 0 8px rgba(53, 208, 115, 0.75);
+}
+
+.status-dot.disconnected {
+    background-color: #e0475a;
+    box-shadow: 0 0 8px rgba(224, 71, 90, 0.65);
+}
+
+.switch-btn {
+    background-color: #1e2126;
+    color: #cfd2d8;
+    border: 1px solid #34383f;
+    border-radius: 3px;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.switch-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.switch-btn:not(:disabled):hover {
+    background-color: #262a31;
+    border-color: #4a4f59;
+}
+
+.lobby-id {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: #1e2126;
+    border: 1px solid #34383f;
+    border-radius: 3px;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.78rem;
+    color: #f1f1f1;
+}
+
+.lobby-id .lbl {
+    color: #6f7480;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    font-size: 0.68rem;
+}
+
+/* ---------- MAIN : zone manette plein écran ---------- */
+main {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    min-height: calc(100dvh - 58px);
+    background-color: #0e0f12;
+    background-image: radial-gradient(circle at 50% 100%, rgba(0, 116, 228, 0.08), transparent 55%);
+    padding: 1.5rem;
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+    padding-left: max(1.5rem, env(safe-area-inset-left));
+    padding-right: max(1.5rem, env(safe-area-inset-right));
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- GAUCHE : croix directionnelle Haut/Bas/Gauche/Droite ---------- */
+main > .left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.pad-cross-row {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.dpad {
+    display: grid;
+    grid-template-columns: 74px 74px 74px;
+    grid-template-rows: 74px 74px 74px;
+    grid-template-areas:
+        ".    up    ."
+        "left center right"
+        ".    down  .";
+    gap: 5px;
+    background-color: #15171b;
+    border: 1px solid #24272d;
+    border-radius: 18px;
+    padding: 0.9rem;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+}
+
+.dpad button {
+    background-color: #1e2126;
+    border: 1px solid #34383f;
+    color: #ffffff;
+    font-size: 1.7rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    touch-action: manipulation;
+    transition: background-color 0.1s ease, border-color 0.1s ease, transform 0.08s ease, box-shadow 0.1s ease;
+}
+
+.dpad button.up {
+    grid-area: up;
+    border-radius: 14px 14px 4px 4px;
+}
+
+.dpad button.left {
+    grid-area: left;
+    border-radius: 14px 4px 4px 14px;
+}
+
+.dpad button.right {
+    grid-area: right;
+    border-radius: 4px 14px 14px 4px;
+}
+
+.dpad button.down {
+    grid-area: down;
+    border-radius: 4px 4px 14px 14px;
+}
+
+.dpad button:hover {
+    background-color: #262a31;
+    border-color: #4a4f59;
+}
+
+.dpad button:active {
+    transform: scale(0.92);
+    background-color: #0074e4;
+    border-color: #0074e4;
+    box-shadow: 0 0 0 5px rgba(0, 116, 228, 0.25);
+    z-index: 1;
+}
+
+.dpad .center {
+    grid-area: center;
+    background-color: #101114;
+    border: 1px solid #24272d;
+    border-radius: 8px;
+}
+
+/* ---------- DROITE : Start / Select empilés ---------- */
+main > .right {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.meta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.meta-buttons button {
+    min-width: 130px;
+    padding: 1rem 1.5rem;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background-color 0.12s ease, border-color 0.12s ease, transform 0.08s ease, box-shadow 0.12s ease;
+}
+
+.meta-buttons button:active {
+    transform: scale(0.94);
+}
+
+.meta-buttons button[data-action="select"] {
+    background-color: #1e2126;
+    color: #cfd2d8;
+    border: 1px solid #34383f;
+}
+
+.meta-buttons button[data-action="select"]:hover {
+    background-color: #262a31;
+    border-color: #4a4f59;
+}
+
+.meta-buttons button[data-action="select"]:active {
+    background-color: #2a2d33;
+    border-color: #ffffff;
+}
+
+.meta-buttons button[data-action="start"] {
+    background-color: #0074e4;
+    color: #ffffff;
+    border: 1px solid #0074e4;
+    box-shadow: 0 6px 16px rgba(0, 116, 228, 0.35);
+}
+
+.meta-buttons button[data-action="start"]:hover {
+    background-color: #2593ff;
+    border-color: #2593ff;
+}
+
+.meta-buttons button[data-action="start"]:active {
+    background-color: #005bb5;
+    border-color: #005bb5;
+}
+
+/* ---------- Responsive : petits écrans / mode paysage bas ---------- */
+@media (max-width: 480px) {
+    main {
+        padding: 1rem;
+    }
+
+    .dpad {
+        grid-template-columns: 62px 62px 62px;
+        grid-template-rows: 62px 62px 62px;
+        padding: 0.7rem;
+        gap: 4px;
+    }
+
+    .dpad button {
+        font-size: 1.4rem;
+    }
+
+    .meta-buttons button {
+        min-width: 108px;
+        padding: 0.85rem 1.1rem;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-height: 460px) {
+    header {
+        padding: 0.5rem 1rem;
+    }
+
+    main {
+        padding: 0.75rem 1.25rem;
+    }
+
+    .dpad {
+        grid-template-columns: 54px 54px 54px;
+        grid-template-rows: 54px 54px 54px;
+        padding: 0.55rem;
+        gap: 3px;
+    }
+
+    .dpad button {
+        font-size: 1.2rem;
+    }
+
+    .meta-buttons {
+        gap: 0.6rem;
+    }
+
+    .meta-buttons button {
+        padding: 0.6rem 1rem;
+    }
+}

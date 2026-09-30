@@ -1,0 +1,68 @@
+@page "/GameHub/Room/{Id}/Player/LRUP"
+@using ConsoleApp1.Objects.Messages.Response
+@rendermode InteractiveServer
+@inherits BaseController
+    
+<title>Player Controller</title>
+
+<header>
+    <div class="right">
+        @if (!_subscribed)
+        {
+            <span class="status-dot disconnected" id="statusDot"></span>
+        }
+        else
+        {
+            <span class="status-dot connected" id="statusDot"></span>
+        }
+        <button class="switch-btn" id="switchRoomBtn" disabled>Change Room</button>
+        <div class="lobby-id">
+            <span class="lbl">ID</span>
+            <span id="lobbyId">@Id</span>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="left">
+        <div class="pad-cross-row">
+            <div class="dpad">
+                <button class="up" data-action="up"
+                        @onpointerdown='async () => { await ClickButton("up", false); }'
+                        @onpointerup='async () => { await ClickButton("up", true); }'>
+                    ▲
+                </button>
+                <button class="left" data-action="left"
+                        @onpointerdown='async () => { await ClickButton("left", false); }'
+                        @onpointerup='async () => { await ClickButton("left", true); }'>
+                    ◀
+                </button>
+                <div class="center"></div>
+                <button class="right" data-action="right"
+                        @onpointerdown='async () => { await ClickButton("right", false); }'
+                        @onpointerup='async () => { await ClickButton("right", true); }'>
+                    ▶
+                </button>
+                <button class="down" data-action="down"
+                        @onpointerdown='async () => { await ClickButton("down", false); }'
+                        @onpointerup='async () => { await ClickButton("down", true); }'>
+                    ▼
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="meta-buttons">
+            <button data-action="select"
+                    @onpointerdown='async () => { await ClickButton("select", false); }'
+                    @onpointerup='async () => { await ClickButton("select", true); }'>
+                Select
+            </button>
+            <button data-action="start"
+                    @onpointerdown='async () => { await ClickButton("start", false); }'
+                    @onpointerup='async () => { await ClickButton("start", true); }'>
+                Start
+            </button>
+        </div>
+    </div>
+</main>

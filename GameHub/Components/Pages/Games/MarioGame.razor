@@ -1,0 +1,63 @@
+@page "/GameHub/Game/{Id}/Mario"
+@rendermode InteractiveServer
+@inherits BaseGame
+@using System.Globalization
+
+<title>Game - Mario</title>
+
+<main>
+    <div class="game-viewport" style="width:@(ViewportWidth)px; height:@(WorldHeight)px;">
+
+        <div class="game-world" style="width:@(LevelWidth)px; height:@(WorldHeight)px; transform: translateX(@((-_cameraX).ToString(CultureInfo.InvariantCulture))px);">
+
+            @* Plateformes flottantes (blocs en attendant une texture) *@
+            @foreach (var platform in _platforms.Where(p => p.Y > GroundHeight))
+            {
+                <div class="platform" style="left:@(platform.X)px; bottom:@(platform.Y - 32)px; width:@(platform.Width)px;">
+                    @for (int i = 0; i < platform.Width / 32; i++)
+                    {
+                        <div class="brick"></div>
+                    }
+                </div>
+            }
+
+            @* Sol *@
+            <div class="ground" style="width:@(LevelWidth)px; height:@(GroundHeight)px;">
+                @for (int i = 0; i < Math.Ceiling(LevelWidth / 32) * (GroundHeight / 32); i++)
+                {
+                    <div class="brick ground-brick"></div>
+                }
+            </div>
+
+            @* Drapeau de fin de niveau *@
+            <div class="flagpole" style="left:@(FlagX)px; bottom:@(GroundHeight)px; height:@(FlagPoleHeight)px;">
+                <div class="flag @(_hasWon ? "flag-down" : "")"></div>
+            </div>
+
+            @* Mario *@
+            <div class="mario @(_facingRight ? "facing-right" : "facing-left") @(_onGround ? "" : "jumping") @(_isUsing ? "using" : "")"
+                 style="left:@(_x.ToString(CultureInfo.InvariantCulture))px; bottom:@(_y.ToString(CultureInfo.InvariantCulture))px; width:@(MarioWidth)px; height:@(MarioHeight)px;">
+                <div class="mario-hat"></div>
+                <div class="mario-face"></div>
+            </div>
+
+        </div>
+
+        @if (!_subscribed)
+        {
+            <div class="overlay">
+                <p>En attente de connexion au serveur...</p>
+            </div>
+        }
+
+        @if (_hasWon)
+        {
+            <div class="overlay victory-overlay">
+                <div>
+                    <p>🏁 Niveau termine !</p>
+                    <button @onclick="ResetLevel">Recommencer</button>
+                </div>
+            </div>
+        }
+    </div>
+</main>

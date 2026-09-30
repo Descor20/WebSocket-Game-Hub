@@ -1,0 +1,98 @@
+@page "/GameHub/"
+@rendermode InteractiveServer
+    
+<title>Room Selector</title>
+
+<header>
+    <div class="title">Room Selector</div>
+    <div class="right">
+        @if (!_connected)
+        {
+            <span class="status-dot disconnected" id="statusDot"></span>
+        }
+        else
+        {
+            <span class="status-dot connected" id="statusDot"></span>
+        }
+        <InputText id="WS-URL" class="form-control" @bind-Value=@Url/>
+        <button id="connection" @onclick="Connection">Connect</button>
+    </div>
+    <div class="Mode">
+        <button class="@(_isVievwer ? "toggle-btn active" : "toggle-btn")" @onclick="SwitchMode">
+            <span class="circle"></span>
+        </button>
+    </div>
+</header>
+
+@if (_rooms is null)
+{
+    <main>
+        <div class="room-empty">Loading Rooms...</div>
+    </main>
+}
+else {
+    <main>
+        <div id="roomSelectScreen">
+            <div class="wrap">
+                <h1>Select a room</h1>
+                <p class="sub">Please select an existing game or lobby.</p>
+
+                <div class="room-toolbar">
+                    <button id="refreshRoomsBtn" @onclick="Reload">↻ Re-Load</button>
+                    <button class="primary" id="createRoomBtn" @onclick="CreateRoom">+ Create a Lobby</button>
+                </div>
+
+                <div class="room-list" id="roomList">
+                    @if (_rooms.Lobbies.Count == 0 && _rooms.Games.Count == 0)
+                    {
+                        <div class="room-empty">No room Available.</div>
+                    }
+                    else
+                    {
+                        <div class="split-container">
+                            <div class="split-pane lobby">
+                                <h2 class="pane-title">Lobby (@_rooms.Lobbies.Count)</h2>
+                                <div class="pane-content">
+                                    @if (_rooms.Lobbies.Count == 0)
+                                    {
+                                        <p>No Lobby</p>
+                                    }
+                                    else 
+                                    {
+                                        @foreach (string lobby in _rooms.Lobbies)
+                                        {
+                                            <div class="card">
+                                                <p class="card-text">@lobby</p>
+                                                <button class="card-button" @onclick="() => SelectRoom(lobby)">Connect</button>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="split-pane game">
+                                <h2 class="pane-title">Game (@_rooms.Games.Count)</h2>
+                                <div class="pane-content">
+                                    @if (_rooms.Games.Count == 0)
+                                    {
+                                        <p>No Game</p>
+                                    }
+                                    else 
+                                    {
+                                        @foreach (string game in _rooms.Games)
+                                        {
+                                            <div class="card">
+                                                <p class="card-text">@game</p>
+                                                <button class="card-button">Connect</button>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </main>
+}

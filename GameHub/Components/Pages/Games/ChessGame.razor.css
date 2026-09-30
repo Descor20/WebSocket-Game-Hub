@@ -1,0 +1,430 @@
+/* ===========================================================
+   ChessGame.razor.css - Échecs à 2 joueurs
+   =========================================================== */
+
+main {
+    display: block;
+    min-height: 100vh;
+    background-color: #0e0f12;
+    background-image: radial-gradient(circle at 20% 0%, rgba(0, 116, 228, 0.06), transparent 45%);
+    color: #f1f1f1;
+}
+
+/* ---------- HEADER ---------- */
+.chess-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #15171b;
+    border-bottom: 1px solid #2a2d33;
+    padding: 1rem 1.5rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.chess-header .left,
+.chess-header .right {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.room-label {
+    color: #9aa0a6;
+    font-size: 0.9rem;
+}
+
+.room-label strong {
+    color: #ffffff;
+}
+
+.status-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+.status-dot.connected {
+    background-color: #35d073;
+    box-shadow: 0 0 8px rgba(53, 208, 115, 0.75);
+}
+
+.status-dot.disconnected {
+    background-color: #e0475a;
+    box-shadow: 0 0 8px rgba(224, 71, 90, 0.65);
+}
+
+.color-pill {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    letter-spacing: 0.02em;
+}
+
+.pill-white {
+    background-color: #eeeed2;
+    color: #1b1b1b;
+}
+
+.pill-black {
+    background-color: #2a2d33;
+    color: #f1f1f1;
+    border: 1px solid #4a4f59;
+}
+
+.leave-btn {
+    background-color: #2a2d33;
+    color: #f1f1f1;
+    border: 1px solid #3a3e46;
+    border-radius: 3px;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.leave-btn:hover {
+    background-color: #e0475a;
+    border-color: #e0475a;
+}
+
+/* ---------- INFO / WAITING SCREEN ---------- */
+.info-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    min-height: calc(100vh - 74px);
+    padding: 2rem;
+    text-align: center;
+}
+
+.info-screen p {
+    color: #9aa0a6;
+    font-size: 1rem;
+}
+
+.spinner {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 3px solid #2a2d33;
+    border-top-color: #0074e4;
+    animation: chess-spin 0.9s linear infinite;
+}
+
+@keyframes chess-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ---------- LAYOUT ---------- */
+.chess-layout {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem;
+    flex-wrap: wrap;
+}
+
+/* ---------- BOARD ---------- */
+.board-outer {
+    display: flex;
+    justify-content: center;
+}
+
+.board-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: min(88vw, 560px);
+    aspect-ratio: 1 / 1;
+    border: 4px solid #15171b;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+}
+
+.board-grid.not-your-turn {
+    filter: saturate(0.85);
+}
+
+.square {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.board-grid.not-your-turn .square {
+    cursor: default;
+}
+
+.square.light {
+    background-color: #eeeed2;
+}
+
+.square.dark {
+    background-color: #769656;
+}
+
+.square.selected {
+    background-color: #f6f776 !important;
+}
+
+.square.last-move.light {
+    background-color: #f3ec8f;
+}
+
+.square.last-move.dark {
+    background-color: #cdd26a;
+}
+
+.square.king-check {
+    background: radial-gradient(circle, rgba(224, 71, 90, 0.95) 0%, rgba(224, 71, 90, 0.35) 65%, transparent 100%);
+}
+
+.piece {
+    font-size: clamp(1.6rem, 6vw, 2.6rem);
+    line-height: 1;
+    z-index: 2;
+    transition: transform 0.1s ease;
+    pointer-events: none;
+}
+
+.square:hover .piece {
+    transform: scale(1.08);
+}
+
+.piece.white-piece {
+    color: #fbfbf8;
+    text-shadow: 0 0 1px #1b1b1b, 0 0 2px #1b1b1b, 0 2px 2px rgba(0, 0, 0, 0.45);
+}
+
+.piece.black-piece {
+    color: #1b1b1b;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
+.move-dot {
+    position: absolute;
+    width: 26%;
+    height: 26%;
+    border-radius: 50%;
+    background-color: rgba(20, 20, 20, 0.35);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.capture-ring {
+    position: absolute;
+    inset: 6%;
+    border-radius: 50%;
+    border: 4px solid rgba(224, 71, 90, 0.75);
+    box-sizing: border-box;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.coord {
+    position: absolute;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.35);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.square.dark .coord {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.file-coord {
+    left: 3px;
+    bottom: 2px;
+}
+
+.rank-coord {
+    right: 3px;
+    top: 2px;
+}
+
+/* ---------- SIDE PANEL ---------- */
+.side-panel {
+    width: min(90vw, 320px);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: #15171b;
+    border: 1px solid #24272d;
+    border-radius: 8px;
+    padding: 1.25rem;
+}
+
+.status-banner {
+    background-color: #1e2126;
+    border: 1px solid #34383f;
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #f1f1f1;
+    text-align: center;
+}
+
+.status-banner.check {
+    border-color: #e0a53d;
+    color: #ffcf7a;
+}
+
+.status-banner.game-over {
+    background-color: #0074e4;
+    border-color: #0074e4;
+    color: #ffffff;
+}
+
+.captured {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.captured-row .lbl {
+    display: block;
+    font-size: 0.75rem;
+    color: #9aa0a6;
+    margin-bottom: 0.25rem;
+}
+
+.captured-row .pieces {
+    min-height: 1.6rem;
+    font-size: 1.2rem;
+    color: #f1f1f1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.1rem;
+    background-color: #1e2126;
+    border: 1px solid #2a2d33;
+    border-radius: 4px;
+    padding: 0.25rem 0.4rem;
+}
+
+.history {
+    flex: 1;
+    min-height: 0;
+}
+
+.history h4 {
+    font-size: 0.85rem;
+    color: #9aa0a6;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0 0 0.5rem 0;
+}
+
+.history .empty-hint {
+    color: #6f7480;
+    font-size: 0.85rem;
+}
+
+.history ol {
+    max-height: 220px;
+    overflow-y: auto;
+    margin: 0;
+    padding-left: 1.4rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: #d6d6d6;
+}
+
+.history ol li {
+    padding: 0.1rem 0;
+}
+
+.restart-btn {
+    background-color: #0074e4;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.restart-btn:hover {
+    background-color: #2593ff;
+}
+
+.restart-btn:active {
+    transform: scale(0.97);
+}
+
+/* ---------- PROMOTION OVERLAY ---------- */
+.promotion-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(6, 7, 9, 0.72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.promotion-box {
+    background-color: #15171b;
+    border: 1px solid #34383f;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+}
+
+.promotion-box p {
+    color: #f1f1f1;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.promotion-choices {
+    display: flex;
+    gap: 0.6rem;
+}
+
+.promotion-choices button {
+    width: 56px;
+    height: 56px;
+    font-size: 2rem;
+    background-color: #eeeed2;
+    color: #1b1b1b;
+    border: 2px solid #34383f;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease;
+}
+
+.promotion-choices button:hover {
+    transform: translateY(-2px);
+    border-color: #0074e4;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 860px) {
+    .chess-layout {
+        padding: 1rem;
+        gap: 1.25rem;
+    }
+
+    .side-panel {
+        width: min(94vw, 560px);
+    }
+}
