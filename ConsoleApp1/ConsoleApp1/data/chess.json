@@ -1,0 +1,17 @@
+{
+  "ID": "5e80a8e7-3385-47ac-a1f3-f09a7838e225",
+  "General": {
+    "Name": "Chess",
+    "GameType": "Strategy Board Game",
+    "Description": "A classic two-player strategy game where players compete to checkmate the opponent's king using a variety of pieces with unique movements and abilities.",
+    "Icon": "data/images/icon_chess.png",
+    "Tags": ["Board Game", "Strategy", "Turn-Based", "Classic"],
+    "MinPlayers": 2,
+    "MaxPlayers": 2
+  },
+  "Controller": {
+    "Admin": "LRUP",
+    "Player": "LRUPnoStart",
+    "RoomAdmin": null
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "ID": "7e8ac1b0-f952-478c-8f42-2d25dd13951d",
+  "General": {
+    "Name": "Mario",
+    "GameType": "Platformer 2D",
+    "Description": "A classic platforming game where players control Mario as he runs, jumps, avoids obstacles, defeats enemies, and explores colorful levels to reach the goal.",
+    "Icon": "data/images/icon_mario.png",
+    "Tags": ["2D", "Platformer", "Action", "Adventure", "Classic"],
+    "MinPlayers": 1,
+    "MaxPlayers": 4
+  },
+  "Controller": {
+    "Admin": "LRUP",
+    "Player": "Plat2D",
+    "RoomAdmin": null
+  }
+}

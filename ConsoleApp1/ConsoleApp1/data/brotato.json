@@ -1,0 +1,17 @@
+{
+  "ID": "e88b2870-c7dd-4212-94f8-7dfaed797e08",
+  "General": {
+    "Name": "Brotato",
+    "GameType": "Top-Down Arena Shooter",
+    "Description": "A fast-paced roguelite arena shooter where players control a potato armed with a variety of weapons and fight through waves of enemies while building powerful and unique character builds.",
+    "Icon": "data/images/icon_brotato.png",
+    "Tags": ["Roguelite", "Shooter", "Action", "Arena", "Survival"],
+    "MinPlayers": 1,
+    "MaxPlayers": 4
+  },
+  "Controller": {
+    "Admin": "LRUP",
+    "Player": "LRUPnoStart",
+    "RoomAdmin": null
+  }
+}
