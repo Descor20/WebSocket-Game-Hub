@@ -1,0 +1,14 @@
+# Environement files
+*.env
+
+# Editing
+.idea/
+*.swp
+
+# Building
+bin/
+obj/
+
+# Log
+*.log
+
