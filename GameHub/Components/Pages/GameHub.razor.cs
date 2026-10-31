@@ -26,7 +26,7 @@ public partial class GameHub : ComponentBase, IDisposable, Menu
     [Inject] 
     private NavigationManager Navigation { get; set; }
     
-    public string Url { get; set; } = "ws://localhost:8080/";
+    public string Url { get; set; } = $"ws://localhost:8080/";
     private readonly CancellationTokenSource _cts = new();
     
     private bool _connected = false;
@@ -46,7 +46,14 @@ public partial class GameHub : ComponentBase, IDisposable, Menu
             _dotNetRef = DotNetObjectReference.Create(Manager);
             _module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/gamehub.js");
             Manager._module = _module;
+
+            await Connection();
         }
+    }
+    
+    protected override void OnInitialized()
+    {
+        Url = $"ws://{new Uri(Navigation.Uri).Host}:8080/";
     }
 
     private async Task Connection()
